@@ -51,19 +51,20 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-  const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen1, setIsOpen1] = useState(true);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
 
   return (
     <>
-      <nav className="nav-bar">
+      <NavBar />
+      <Main />
+    </>
+  );
+}
+
+function NavBar(){
+  const [query, setQuery] = useState("");
+
+    return (
+        <nav className="nav-bar">
         <div className="logo">
           <span role="img">🍿</span>
           <h1>usePopcorn</h1>
@@ -76,11 +77,25 @@ export default function App() {
           onChange={(e) => setQuery(e.target.value)}
         />
         <p className="num-results">
-          Found <strong>{movies.length}</strong> results
+          {/* Found <strong>{movies.length}</strong> results */}
+          Found <strong>X</strong> results
         </p>
       </nav>
+    )
+}
 
-      <main className="main">
+function Main(){
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+  const [isOpen1, setIsOpen1] = useState(true);
+  const [isOpen2, setIsOpen2] = useState(true);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  
+  return (
+    <main className="main">
         <div className="box">
           <button
             className="btn-toggle"
@@ -163,6 +178,5 @@ export default function App() {
           )}
         </div>
       </main>
-    </>
-  );
+  )
 }
