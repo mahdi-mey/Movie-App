@@ -24,10 +24,15 @@ export default function StarRating({ maxLength = 10 }) {
         <div style={containerStyles}>
             <div style={starContainerStyles}>
                 {Array.from({ length: maxLength }, (_, i) => (
-                    <Star key={i} onRate={() => setRating(i + 1)} full={rating >= i + 1} />
+                    <Star key={i} 
+                    onRate={() => setRating(i + 1)} 
+                    full={tempRating ? tempRating >= i + 1  : rating >= i + 1} 
+                    onHover={() => setTempRating(i + 1)}
+                    onLeave={() => setTempRating(0)}
+                    />
                 ))}
             </div>
-            <p style={textStyles}>{rating || ''}</p>
+            <p style={textStyles}>{tempRating || rating || ''}</p>
         </div>
     )
 }
@@ -39,9 +44,12 @@ const starStyle = {
     cursor: 'pointer',
 }
 
-function Star({ onRate, full }) {
+function Star({ onRate, full, onHover, onLeave }) {
     return (
-        <span style={starStyle} onClick={onRate}>
+        <span style={starStyle} 
+        onClick={onRate} 
+        onMouseEnter={() => onHover()} 
+        onMouseLeave={() => onLeave()}>
             {full ? <svg  // ! if full is truthy => rendr filled star
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
