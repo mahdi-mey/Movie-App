@@ -51,34 +51,34 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 let query = 'jigsaw'
-let api   = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
+let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
 
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState([]);
-  const [watched, setWatched] = useState([]); 
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLodaing] = useState(false)
   const [error, setError] = useState('')
 
-  useEffect(function(){
-    async function fetchMovies(){
+  useEffect(function () {
+    async function fetchMovies() {
       try {
-      setIsLodaing(true)
-      const res = await fetch(api)
+        setIsLodaing(true)
+        const res = await fetch(api)
 
-      if(!res.ok) throw new Error('Something went wrong')
+        if (!res.ok) throw new Error('Something went wrong')
 
-      const data = await res.json();
-      setMovies(data.Search)
-      console.log(data);
-    }
-    catch(err){
-      console.log(err.message)
-      setError(err.message)
-    }
-    finally{
-      setIsLodaing(false)
-    }
+        const data = await res.json();
+        setMovies(data.Search)
+        console.log(data);
+      }
+      catch (err) {
+        console.log(err.message)
+        setError(err.message)
+      }
+      finally {
+        setIsLodaing(false)
+      }
     }
     fetchMovies()
   }, [])
@@ -86,7 +86,7 @@ export default function App() {
   return (
     <>
       <NavBar>
-      <div className="logo">
+        <div className="logo">
           <span role="img">🍿</span>
           <h1>usePopcorn</h1>
         </div>
@@ -119,41 +119,41 @@ export default function App() {
   );
 }
 
-function Loader(){
-  return(
+function Loader() {
+  return (
     <p className="loader">Loading...</p>
   )
 }
 
-function ErrorMessage({message}){
-  return(
+function ErrorMessage({ message }) {
+  return (
     <p className="error">{message} ⛔</p>
   )
 }
 
-function NavBar({children}){
+function NavBar({ children }) {
 
-    return (
-        <nav className="nav-bar">
-          {children}
-        </nav>
-    )
+  return (
+    <nav className="nav-bar">
+      {children}
+    </nav>
+  )
 }
 
-function Main({children}){
+function Main({ children }) {
   return (
     <main className="main">
 
       {children}
 
-      </main>
+    </main>
   )
 }
 
-function Box({children}){
+function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
 
-  return(
+  return (
     <div className="box">
       <button
         className="btn-toggle"
@@ -167,38 +167,38 @@ function Box({children}){
 }
 
 
-function MovieList({movies}){
+function MovieList({ movies }) {
 
-  return(
+  return (
     <ul className="list">
       {movies?.map((movie) => (
         <Movie movie={movie} key={movie.imdbID} />
       ))}
-      </ul>
+    </ul>
   )
 }
 
-function Movie({movie}){
-  return(
+function Movie({ movie }) {
+  return (
     <li key={movie.imdbID}>
-        <img src={movie.Poster} alt={`${movie.Title} poster`} />
-        <h3>{movie.Title}</h3>
-        <div>
-          <p>
-            <span>🗓</span>
-            <span>{movie.Year}</span>
-          </p>
-        </div>
-      </li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
   )
 }
 
-function WatchedSummery ({watched}){
+function WatchedSummery({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
-  return(
+  return (
     <div className="summary">
       <h2>Movies you watched</h2>
       <div>
@@ -219,20 +219,20 @@ function WatchedSummery ({watched}){
           <span>{avgRuntime} min</span>
         </p>
       </div>
-      </div>
+    </div>
   )
 }
-function WatchedMovieList({watched}){
- return(
+function WatchedMovieList({ watched }) {
+  return (
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
- ) 
+  )
 }
-function WatchedMovie({movie}){
-  return(
+function WatchedMovie({ movie }) {
+  return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
