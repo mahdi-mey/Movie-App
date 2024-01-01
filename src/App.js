@@ -58,15 +58,27 @@ export default function App() {
   const [query, setQuery] = useState([]);
   const [watched, setWatched] = useState([]); 
   const [isLoading, setIsLodaing] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(function(){
-    setIsLodaing(true)
     async function fetchMovies(){
+      try {
+      setIsLodaing(true)
       const res = await fetch(api)
+
+      if(!res.ok) throw new Error('Something went wrong')
+
       const data = await res.json();
       setMovies(data.Search)
       console.log(data);
+    }
+    catch(err){
+      console.log(err.message)
+      setError(err.message)
+    }
+    finally{
       setIsLodaing(false)
+    }
     }
     fetchMovies()
   }, [])
@@ -92,7 +104,10 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          {isLoading ? <Loader /> : <MovieList movies={movies}></MovieList>}
+          {/* {isLoading ? <Loader /> : <MovieList movies={movies}></MovieList>} */}
+          {isLoading && <Loader />}
+          {isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
         </Box>
 
         <Box>
@@ -107,6 +122,12 @@ export default function App() {
 function Loader(){
   return(
     <p className="loader">Loading...</p>
+  )
+}
+
+function ErrorMessage({message}){
+  return(
+    <p className="error">{message} ⛔</p>
   )
 }
 
