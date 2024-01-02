@@ -50,20 +50,22 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-let query = 'jigsaw'
-let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
-
-export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLodaing] = useState(false)
-  const [error, setError] = useState('')
+  
+  export default function App() {
+    const [movies, setMovies] = useState([]);
+    const [query, setQuery] = useState('')
+    const [watched, setWatched] = useState([]);
+    const [isLoading, setIsLodaing] = useState(false)
+    const [error, setError] = useState('')
+    
+    // let tempQuery = 'jigsaw'
+    let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
 
   useEffect(function () {
     async function fetchMovies() {
       try {
         setIsLodaing(true)
+        setError('')
         const res = await fetch(api)
 
         if (!res.ok) throw new Error('Something went wrong')
@@ -83,8 +85,15 @@ export default function App() {
         setIsLodaing(false)
       }
     }
+
+    if(query.length < 3){
+      setMovies([])
+      setError('')
+      return
+    }
+
     fetchMovies()
-  }, [])
+  }, [query])
 
   return (
     <>
@@ -101,16 +110,16 @@ export default function App() {
           onChange={(e) => setQuery(e.target.value)}
         />
         <p className="num-results">
-          Found <strong>{movies.length}</strong> results
-          {/* Found <strong>X</strong> results */}
+          {/* Found <strong>{movies.length}</strong> results */}
+          Found <strong>X</strong> results
         </p>
       </NavBar>
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies}></MovieList>} */}
-          {isLoading && <Loader />}
+          {/* {isLoading && <Loader />}
           {isLoading && !error && <MovieList movies={movies} />}
-          {error && <ErrorMessage message={error} />}
+          {error && <ErrorMessage message={error} />} */}
+          {isLoading ? <Loader /> : (error ? <ErrorMessage message={error} /> : <MovieList movies={movies} />)}
         </Box>
 
         <Box>
