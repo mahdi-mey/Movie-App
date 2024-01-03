@@ -57,9 +57,13 @@ const average = (arr) =>
     const [watched, setWatched] = useState([]);
     const [isLoading, setIsLodaing] = useState(false)
     const [error, setError] = useState('')
+    const [selectedId, setSelectedId] = useState(null)
     
-    // let tempQuery = 'jigsaw'
     let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
+
+    function hendleSelectMovie(id){
+      setSelectedId(id)
+    }
 
   useEffect(function () {
     async function fetchMovies() {
@@ -75,6 +79,7 @@ const average = (arr) =>
         if(data.Response === 'False') throw new Error('Movie not found')
 
         setMovies(data.Search)
+        console.log(data.Search);
         console.log(data);
       }
       catch (err) {
@@ -110,8 +115,8 @@ const average = (arr) =>
           onChange={(e) => setQuery(e.target.value)}
         />
         <p className="num-results">
-          {/* Found <strong>{movies.length}</strong> results */}
-          Found <strong>X</strong> results
+          Found <strong>{movies.length}</strong> results
+          {/* Found <strong>X</strong> results */}
         </p>
       </NavBar>
       <Main>
@@ -119,12 +124,17 @@ const average = (arr) =>
           {/* {isLoading && <Loader />}
           {isLoading && !error && <MovieList movies={movies} />}
           {error && <ErrorMessage message={error} />} */}
-          {isLoading ? <Loader /> : (error ? <ErrorMessage message={error} /> : <MovieList movies={movies} />)}
+          {isLoading ? <Loader /> : (error ? <ErrorMessage message={error} /> : <MovieList movies={movies} onSelectMovie={hendleSelectMovie} />)}
         </Box>
 
         <Box>
-          <WatchedSummery watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {
+            selectedId ? <MovieDetails selectedId={selectedId} /> : 
+            <>
+              <WatchedSummery watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </> 
+          }
         </Box>
       </Main>
     </>
@@ -179,20 +189,20 @@ function Box({ children }) {
 }
 
 
-function MovieList({ movies }) {
+function MovieList({ movies, onSelectMovie }) {
 
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
       ))}
     </ul>
   )
 }
 
-function Movie({ movie }) {
+function Movie({ movie, onSelectMovie}) {
   return (
-    <li key={movie.imdbID}>
+    <li key={movie.imdbID} onClick={() => {onSelectMovie(movie.imdbID)}}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -234,6 +244,13 @@ function WatchedSummery({ watched }) {
     </div>
   )
 }
+
+function MovieDetails({selectedId}){
+  return(
+    <div className="detail">{selectedId}</div>
+  )
+}
+
 function WatchedMovieList({ watched }) {
   return (
     <ul className="list">
