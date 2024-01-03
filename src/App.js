@@ -65,6 +65,10 @@ const average = (arr) =>
       setSelectedId(id)
     }
 
+    function handleCloseMovie(){
+      setSelectedId(null)
+    }
+
   useEffect(function () {
     async function fetchMovies() {
       try {
@@ -129,7 +133,7 @@ const average = (arr) =>
 
         <Box>
           {
-            selectedId ? <MovieDetails selectedId={selectedId} /> : 
+            selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} /> : 
             <>
               <WatchedSummery watched={watched} />
               <WatchedMovieList watched={watched} />
@@ -245,9 +249,12 @@ function WatchedSummery({ watched }) {
   )
 }
 
-function MovieDetails({selectedId}){
+function MovieDetails({selectedId, onCloseMovie}){
   return(
-    <div className="detail">{selectedId}</div>
+    <div className="detail">
+      <button className="btn-back" onClick={onCloseMovie}>⬅</button>
+      {selectedId}
+    </div>
   )
 }
 
