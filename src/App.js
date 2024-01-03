@@ -62,7 +62,7 @@ const average = (arr) =>
     let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
 
     function hendleSelectMovie(id){
-      setSelectedId(id)
+      setSelectedId(prevId => (id === prevId ? null : id))
     }
 
     function handleCloseMovie(){
