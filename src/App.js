@@ -58,8 +58,8 @@ const average = (arr) =>
     const [isLoading, setIsLodaing] = useState(false)
     const [error, setError] = useState('')
     const [selectedId, setSelectedId] = useState(null)
-    
-    let api = `http://www.omdbapi.com/?i=tt3896198&apikey=f84fc31d&s=${query}`
+
+    let api = `http://www.omdbapi.com/?apikey=f2f2e7d1&s=${query}`
 
     function hendleSelectMovie(id){
       setSelectedId(prevId => (id === prevId ? null : id))
@@ -83,8 +83,8 @@ const average = (arr) =>
         if(data.Response === 'False') throw new Error('Movie not found')
 
         setMovies(data.Search)
-        console.log(data.Search);
-        console.log(data);
+        // console.log(data.Search);
+        // console.log(data);
       }
       catch (err) {
         console.log(err.message)
@@ -250,6 +250,16 @@ function WatchedSummery({ watched }) {
 }
 
 function MovieDetails({selectedId, onCloseMovie}){
+
+  useEffect(function(){
+    async function getMovieDetails(){
+      const res = await fetch(`http://www.omdbapi.com/?apikey=f2f2e7d1&i=${selectedId}`)
+      const data = await res.json()
+      console.log(data);
+    }
+    getMovieDetails()
+  }, [])
+
   return(
     <div className="detail">
       <button className="btn-back" onClick={onCloseMovie}>⬅</button>
