@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import StarRating from './StarRating'
-import Header from "./Header";
-import Box from "./Box";
-import ErrorMessage from "./ErrorMessage";
-import Loader from "./Loader";
-import Main from "./Main";
-import MovieList from "./MovieList";
-import WatchedSummery from './WatchedSummery'
+
+import StarRating       from './StarRating'
+import Header           from "./Header";
+import Box              from "./Box";
+import ErrorMessage     from "./ErrorMessage";
+import Loader           from "./Loader";
+import Main             from "./Main";
+import MovieList        from "./MovieList";
+import WatchedSummery   from './WatchedSummery'
+import WatchedMovieList from "./WatchedMovieList";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -157,37 +159,5 @@ function MovieDetails({ selectedId, onCloseMovie }) {
         </>
       }
     </div>
-  )
-}
-
-function WatchedMovieList({ watched }) {
-  return (
-    <ul className="list">
-      {watched.map((movie) => (
-        <WatchedMovie movie={movie} key={movie.imdbID} />
-      ))}
-    </ul>
-  )
-}
-function WatchedMovie({ movie }) {
-  return (
-    <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
-      <div>
-        <p>
-          <span>⭐️</span>
-          <span>{movie.imdbRating}</span>
-        </p>
-        <p>
-          <span>🌟</span>
-          <span>{movie.userRating}</span>
-        </p>
-        <p>
-          <span>⏳</span>
-          <span>{movie.runtime} min</span>
-        </p>
-      </div>
-    </li>
   )
 }
