@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import StarRating       from './StarRating'
 import Header           from "./Header";
 import Box              from "./Box";
 import ErrorMessage     from "./ErrorMessage";
@@ -29,6 +28,10 @@ export default function App() {
     setSelectedId(null)
   }
 
+  function handleAddWatched(movie){
+    setWatched((watched) => [...watched, movie])
+  }
+
   useEffect(function () {
     async function fetchMovies() {
       try {
@@ -43,8 +46,6 @@ export default function App() {
         if (data.Response === 'False') throw new Error('Movie not found')
 
         setMovies(data.Search)
-        // console.log(data.Search);
-        // console.log(data);
       }
       catch (err) {
         console.log(err.message)
@@ -80,20 +81,16 @@ export default function App() {
         />
         <p className="num-results">
           Found <strong>{movies.length}</strong> results
-          {/* Found <strong>X</strong> results */}
         </p>
       </Header>
       <Main>
         <Box>
-          {/* {isLoading && <Loader />}
-          {isLoading && !error && <MovieList movies={movies} />}
-          {error && <ErrorMessage message={error} />} */}
           {isLoading ? <Loader /> : (error ? <ErrorMessage message={error} /> : <MovieList movies={movies} onSelectMovie={hendleSelectMovie} />)}
         </Box>
 
         <Box>
           {
-            selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} /> :
+            selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} onAddWatch={handleAddWatched} /> :
               <>
                 <WatchedSummery watched={watched} />
                 <WatchedMovieList watched={watched} />
