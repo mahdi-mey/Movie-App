@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StarRating from './StarRating'
+import Header from "./Header";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -60,7 +61,7 @@ export default function App() {
 
   return (
     <>
-      <NavBar>
+      <Header>
         <div className="logo">
           <span role="img">🍿</span>
           <h1>usePopcorn</h1>
@@ -76,7 +77,7 @@ export default function App() {
           Found <strong>{movies.length}</strong> results
           {/* Found <strong>X</strong> results */}
         </p>
-      </NavBar>
+      </Header>
       <Main>
         <Box>
           {/* {isLoading && <Loader />}
@@ -108,15 +109,6 @@ function Loader() {
 function ErrorMessage({ message }) {
   return (
     <p className="error">{message} ⛔</p>
-  )
-}
-
-function NavBar({ children }) {
-
-  return (
-    <nav className="nav-bar">
-      {children}
-    </nav>
   )
 }
 
@@ -219,8 +211,6 @@ function MovieDetails({ selectedId, onCloseMovie }) {
     Director: director,
     Genre: genre
   } = movie
-
-  // console.log(title, year);
 
   useEffect(function () {
     async function getMovieDetails() {
