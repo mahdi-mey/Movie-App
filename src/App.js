@@ -4,6 +4,8 @@ import Header from "./Header";
 import Box from "./Box";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loader";
+import Main from "./Main";
+import Movie from "./Movie";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -103,16 +105,6 @@ export default function App() {
   );
 }
 
-function Main({ children }) {
-  return (
-    <main className="main">
-
-      {children}
-
-    </main>
-  )
-}
-
 function MovieList({ movies, onSelectMovie }) {
 
   return (
@@ -121,21 +113,6 @@ function MovieList({ movies, onSelectMovie }) {
         <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
       ))}
     </ul>
-  )
-}
-
-function Movie({ movie, onSelectMovie }) {
-  return (
-    <li key={movie.imdbID} onClick={() => { onSelectMovie(movie.imdbID) }}>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
-      <div>
-        <p>
-          <span>🗓</span>
-          <span>{movie.Year}</span>
-        </p>
-      </div>
-    </li>
   )
 }
 
