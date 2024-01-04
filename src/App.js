@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import StarRating from './StarRating'
 import Header from "./Header";
 import Box from "./Box";
+import ErrorMessage from "./ErrorMessage";
+import Loader from "./Loader";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -101,18 +103,6 @@ export default function App() {
   );
 }
 
-function Loader() {
-  return (
-    <p className="loader">Loading...</p>
-  )
-}
-
-function ErrorMessage({ message }) {
-  return (
-    <p className="error">{message} ⛔</p>
-  )
-}
-
 function Main({ children }) {
   return (
     <main className="main">
@@ -122,8 +112,6 @@ function Main({ children }) {
     </main>
   )
 }
-
-
 
 function MovieList({ movies, onSelectMovie }) {
 
