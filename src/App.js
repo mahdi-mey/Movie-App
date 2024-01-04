@@ -9,6 +9,7 @@ import Main             from "./Main";
 import MovieList        from "./MovieList";
 import WatchedSummery   from './WatchedSummery'
 import WatchedMovieList from "./WatchedMovieList";
+import MovieDetails     from "./MovieDetails";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -102,62 +103,4 @@ export default function App() {
       </Main>
     </>
   );
-}
-
-function MovieDetails({ selectedId, onCloseMovie }) {
-  const [movie, setMovie] = useState({})
-  const [isLoading, setIsLodaing] = useState(false)
-
-  const {
-    Title: title,
-    Year: year,
-    Poster: poster,
-    Runtime: runtime,
-    imdbRating,
-    Plot: plot,
-    Released: released,
-    Actors: actors,
-    Director: director,
-    Genre: genre
-  } = movie
-
-  useEffect(function () {
-    async function getMovieDetails() {
-      setIsLodaing(true)
-      const res = await fetch(`http://www.omdbapi.com/?apikey=f2f2e7d1&i=${selectedId}`)
-      const data = await res.json()
-      // console.log(data);
-      setMovie(data)
-      setIsLodaing(false)
-    }
-    getMovieDetails()
-  }, [selectedId])
-
-  return (
-    <div className="detail">
-      {isLoading ? <Loader /> :
-        <>
-          <header className="header">
-            <button className="btn-back" onClick={onCloseMovie}>⬅</button>
-            <img src={poster} alt={`Poster of ${movie} movie`} />
-            <div className="details-overview">
-              <div>
-                <h2>{title}</h2>
-                <p>{released} &bull; {runtime}</p>
-                <p>{genre}</p>
-                <p><span>⭐</span>{imdbRating}Imdb Rating</p>
-              </div>
-              <section>
-                <div className="rating">
-                  <StarRating size={30} />
-                </div>
-                <p><em>{plot}</em></p>
-                <p>Director by {director}</p>
-              </section>
-            </div>
-          </header>
-        </>
-      }
-    </div>
-  )
 }
