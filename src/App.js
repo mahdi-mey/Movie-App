@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StarRating from './StarRating'
 import Header from "./Header";
+import Box from "./Box";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -122,21 +123,6 @@ function Main({ children }) {
   )
 }
 
-function Box({ children }) {
-  const [isOpen, setIsOpen] = useState(true);
-
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen((open) => !open)}
-      >
-        {isOpen ? "–" : "+"}
-      </button>
-      {isOpen && children}
-    </div>
-  )
-}
 
 
 function MovieList({ movies, onSelectMovie }) {
