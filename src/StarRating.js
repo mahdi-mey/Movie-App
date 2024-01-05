@@ -10,7 +10,7 @@ const starContainerStyles = {
     display: 'flex',
 }
 
-export default function StarRating({ maxLength = 10, color = '#ffb703', size = 48, defaultRating = 0 }) {
+export default function StarRating({ maxLength = 10, color = '#ffb703', size = 48, defaultRating = 0, onSetRating }) {
     const [rating, setRating] = useState(defaultRating)
     const [tempRating, setTempRating] = useState(0)
 
@@ -22,12 +22,21 @@ export default function StarRating({ maxLength = 10, color = '#ffb703', size = 4
         fontSize: `${size / 1.4}px`,
     }
 
+    function handleRating(rating){
+        // setting internal rating
+        setRating(rating)
+
+        // setting external rating in order
+        // to send rating to outside component
+        onSetRating(rating)
+    }
+
     return (
         <div style={containerStyles}>
             <div style={starContainerStyles}>
                 {Array.from({ length: maxLength }, (_, i) => (
                     <Star key={i} 
-                    onRate={() => setRating(i + 1)} 
+                    onRate={() => handleRating(i + 1)} 
                     full={tempRating ? tempRating >= i + 1  : rating >= i + 1} 
                     onHover={() => setTempRating(i + 1)}
                     onLeave={() => setTempRating(0)}
