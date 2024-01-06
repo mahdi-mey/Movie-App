@@ -50,12 +50,18 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatch, wat
 
   // for esc key 
   useEffect(function(){
-    document.addEventListener('keyup', e => {
+    function callback(e){
       if(e.code === 'Escape'){
         onCloseMovie()
       }
-    })
-  }, [])
+    }
+
+    document.addEventListener('keydown', callback)
+
+    return function(){
+      document.removeEventListener('keydown', callback)
+    }
+  }, [onCloseMovie])
 
   return (
     <div className="details">
