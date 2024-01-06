@@ -48,6 +48,15 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatch, wat
     getMovieDetails()
   }, [selectedId])
 
+  // for esc key 
+  useEffect(function(){
+    document.addEventListener('keyup', e => {
+      if(e.code === 'Escape'){
+        onCloseMovie()
+      }
+    })
+  }, [])
+
   return (
     <div className="details">
       {isLoading ? <Loader /> :
