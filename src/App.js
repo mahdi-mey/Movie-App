@@ -90,7 +90,7 @@ export default function App() {
 
         <Box>
           {
-            selectedId ? <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} onAddWatch={handleAddWatched} /> :
+            selectedId ? <MovieDetails selectedId={selectedId} watched={watched} onCloseMovie={handleCloseMovie} onAddWatch={handleAddWatched} /> :
               <>
                 <WatchedSummery watched={watched} />
                 <WatchedMovieList watched={watched} />
