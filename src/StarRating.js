@@ -17,7 +17,6 @@ export default function StarRating({ maxLength = 10, color = '#ffb703', size = 4
     const textStyles = {
         lineHeight: '1',
         margin: '0',
-        fontSize: '2em',
         color,
         fontSize: `${size / 1.4}px`,
     }
