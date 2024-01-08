@@ -13,11 +13,15 @@ import MovieDetails     from "./MovieDetails";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('')
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLodaing] = useState(false)
   const [error, setError] = useState('')
   const [selectedId, setSelectedId] = useState(null)
 
+  const [watched, setWatched] = useState(function (){
+    const storedValue = localStorage.getItem('watched')
+    return JSON.parse(storedValue)
+  });
+  
   let api = `http://www.omdbapi.com/?apikey=f2f2e7d1&s=${query}`
 
   function hendleSelectMovie(id) {
@@ -30,6 +34,8 @@ export default function App() {
 
   function handleAddWatched(movie){
     setWatched((watched) => [...watched, movie])
+
+    localStorage.setItem('watched', JSON.stringify([...watched, movie]))
   }
 
   function handleDeleteWatched(id){
