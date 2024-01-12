@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Loader from "./Loader"
 import StarRating from "./StarRating"
+import { useKey } from "./useKey"
 
 export default function MovieDetails({ selectedId, onCloseMovie, onAddWatch, watched }) {
   const [movie, setMovie] = useState({})
@@ -48,20 +49,7 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatch, wat
     getMovieDetails()
   }, [selectedId])
 
-  // for esc key 
-  useEffect(function(){
-    function callback(e){
-      if(e.code === 'Escape'){
-        onCloseMovie()
-      }
-    }
-
-    document.addEventListener('keydown', callback)
-
-    return function(){
-      document.removeEventListener('keydown', callback)
-    }
-  }, [onCloseMovie])
+  useKey('escape', onCloseMovie)
 
   return (
     <div className="details">
